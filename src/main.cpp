@@ -50,6 +50,20 @@ void setup() {
   digitalWrite(TRIG_PIN, LOW);
 }
 
+// Set motor speed
+void motorSpeed(int motorOne, int motorTwo){
+  analogWrite(ENA, motorOne);
+  analogWrite(ENB, motorTwo);
+}
+
+// Set motors to direction one
+void motorDirOne(){
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
 void loop() {
 
   // Handling Ultrasonic sensor.
