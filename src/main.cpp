@@ -15,8 +15,12 @@
 #define ENA 6
 #define ENB 5
 
+// Ultrasonic sensor pins
+#define ECHO_PIN 2
+#define TRIG_PIN 3
 
-int val = 0;
+long duration;
+int distance;
 
 void setup() {
   // Start serial communication
@@ -24,6 +28,8 @@ void setup() {
 
   // Initialize Pins
   pinMode(IR_PIN, INPUT);
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
   pinMode(IN3, OUTPUT);
@@ -36,7 +42,27 @@ void setup() {
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, LOW);
+
+  // Set motor speed to zero on boot
+  analogWrite(ENA, LOW);
+  analogWrite(ENB, LOW);
+
+  digitalWrite(TRIG_PIN, LOW);
 }
 
 void loop() {
+
+  // Handling Ultrasonic sensor.
+
+  // Clears the TRIG_PIN condition
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  // Sets the TRIG_PIN HIGH (ACTIVE) for 10 microseconds
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+  // Reads the ECHO_PIN, returns the sound wave travel time in microseconds
+  duration = pulseIn(ECHO_PIN, HIGH);
+  // Calculating the distance
+  distance = duration * 0.034 / 2;
 }
